@@ -24,7 +24,8 @@ namespace API
         {
             //inject services here...
 
-            services.AddDbContext<DataContext>(opt => {
+            services.AddDbContext<DataContext>(opt =>
+            {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             }
             );

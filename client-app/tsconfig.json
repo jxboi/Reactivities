@@ -21,6 +21,6 @@
     "experimentalDecorators": true,
   },
   "include": [
-    "src"
+    "src", "src/serviceWorker.ts", "src/app/react-app-env.d.ts", "src/app/index.tsx", "src/app/layout/App.tsx"
   ]
 }
