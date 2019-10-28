@@ -10,6 +10,7 @@ namespace API
 {
     public class Program
     {
+        //static void Main (similar to how Console app) is the entry point to an application
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
@@ -32,8 +33,14 @@ namespace API
             //CreateWebHostBuilder(args).Build().Run();
         }
 
+        //IWebHostBuilder is the factory to create the web host 
+        //creates default kestrel server, logging, and support for appsetting.json
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+
+
+        //.UseKestrel() > use Kestrel server
+        //.UseContentRoot(Directory.GetCurrentDirectory() > use current directory as root
     }
 }

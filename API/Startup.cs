@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using MediatR;
 using Application.Activities;
+using FluentValidation.AspNetCore;
+using API.Middleware;
 
 namespace API
 {
@@ -19,7 +21,7 @@ namespace API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // Called by the runtime. Configure dependency injection.
         public void ConfigureServices(IServiceCollection services)
         {
             //inject services here...
@@ -35,17 +37,21 @@ namespace API
                 });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //register MVC middleware to handle request, usually the final handler
+            services.AddMvc()
+                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Called by the runtime. Configure HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
